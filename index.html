@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Archetype Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: #0f0f0f;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .question h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            background: #2a2a2a;
+            border: 2px solid #404040;
+            border-radius: 6px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #1e3a8a;
+        }
+
+        .option.selected {
+            border-color: #3b82f6;
+            background: #1e40af;
+            color: white;
+        }
+
+        .likert-scale {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .likert-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .likert-option input[type="radio"] {
+            margin-bottom: 5px;
+            transform: scale(1.2);
+        }
+
+        .likert-label {
+            font-size: 0.8rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+        }
+
+        .btn:disabled {
+            background: #4a5568;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #404040;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .question-counter {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 20px;
+        }
+
+        .results-page {
+            display: none;
+        }
+
+        .archetype-card {
+            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid #3b82f6;
+        }
+
+        .archetype-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: #2a2a2a;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #9ca3af;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .archetype-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .archetype-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .archetype-description {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .score-breakdown {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #404040;
+        }
+
+        .score-bar {
+            width: 60%;
+            height: 20px;
+            background: #404040;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-left: 15px;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .planning-style {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .planning-slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .reset-btn {
+            background: #e53e3e;
+        }
+
+        .reset-btn:hover {
+            background: #c53030;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="quiz-page">
+            <div class="card">
+                <h1>Developer Archetype Quiz</h1>
+                <p class="subtitle">Discover your coding persona through the lens of Bartle's player types and Magic: The Gathering archetypes</p>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                
+                <div class="question-counter">
+                    Question <span id="current-question">1</span> of <span id="total-questions">12</span>
+                </div>
+
+                <!-- Question 1 -->
+                <div class="question active" data-question="1">
+                    <h3>A green-field project lands on your desk. What excites you most?</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Drawing the architecture and roadmap</div>
+                        <div class="option" data-answer="alchemist">Trying wild ideas to see what sticks</div>
+                        <div class="option" data-answer="bard">Brain-storming features with the team</div>
+                        <div class="option" data-answer="debugger">Building something that outperforms competitors</div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question" data-question="2">
+                    <h3>Deep, elusive bug in production — first move?</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Reproduce locally, map the system, write test cases</div>
+                        <div class="option" data-answer="alchemist">Sprinkle logs, live-debug, poke until it breaks differently</div>
+                        <div class="option" data-answer="bard">Grab a teammate and rubber-duck together</div>
+                        <div class="option" data-answer="debugger">Treat it like a duel: isolate, attack, conquer</div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question" data-question="3">
+                    <h3>Favorite moment in a hackathon:</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Delivering a polished, demo-ready product</div>
+                        <div class="option" data-answer="alchemist">Discovering an unexpected tech mash-up</div>
+                        <div class="option" data-answer="bard">Meeting new devs and sharing knowledge</div>
+                        <div class="option" data-answer="debugger">Hearing our project announced as the winner</div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question" data-question="4">
+                    <h3>Code review philosophy:</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Ensure long-term maintainability and alignment with standards</div>
+                        <div class="option" data-answer="alchemist">Suggest creative alternatives and cool libraries</div>
+                        <div class="option" data-answer="bard">Encourage, mentor, and celebrate others' growth</div>
+                        <div class="option" data-answer="debugger">Hunt inefficiencies and point out performance leaks</div>
+                    </div>
+                </div>
+
+                <!-- Question 5 - Likert Scale -->
+                <div class="question" data-question="5">
+                    <h3>When tackling large tasks I prefer to:</h3>
+                    <div class="likert-scale">
+                        <div class="likert-option">
+                            <input type="radio" name="q5" value="1" data-type="planning">
+                            <span class="likert-label">Draft extensive design doc first</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q5" value="2" data-type="planning">
+                            <span class="likert-label">Some planning</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q5" value="3" data-type="planning">
+                            <span class="likert-label">Balanced</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q5" value="4" data-type="planning">
+                            <span class="likert-label">Some exploration</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q5" value="5" data-type="planning">
+                            <span class="likert-label">Jump straight into code</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question" data-question="6">
+                    <h3>Learning a brand-new framework:</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Read official docs, design integration plan</div>
+                        <div class="option" data-answer="alchemist">Build a quirky side project with it tonight</div>
+                        <div class="option" data-answer="bard">Start a study group or stream lessons</div>
+                        <div class="option" data-answer="debugger">Benchmark it against what we already use</div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question" data-question="7">
+                    <h3>Definition of "done":</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">All acceptance criteria met and KPIs green</div>
+                        <div class="option" data-answer="alchemist">I've learned something novel and interesting</div>
+                        <div class="option" data-answer="bard">Stakeholders and teammates are happy</div>
+                        <div class="option" data-answer="debugger">We're faster, safer, or stronger than before</div>
+                    </div>
+                </div>
+
+                <!-- Question 8 - Likert Scale -->
+                <div class="question" data-question="8">
+                    <h3>I'm comfortable changing requirements mid-sprint:</h3>
+                    <div class="likert-scale">
+                        <div class="likert-option">
+                            <input type="radio" name="q8" value="1" data-type="planning">
+                            <span class="likert-label">No, stick to the spec</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q8" value="2" data-type="planning">
+                            <span class="likert-label">Reluctantly</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q8" value="3" data-type="planning">
+                            <span class="likert-label">Sometimes</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q8" value="4" data-type="planning">
+                            <span class="likert-label">Usually fine</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q8" value="5" data-type="planning">
+                            <span class="likert-label">Absolutely, embrace the chaos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="question" data-question="9">
+                    <h3>You join an open-source project. First contribution?</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Improve build/release pipeline</div>
+                        <div class="option" data-answer="alchemist">Prototype a plugin that pushes boundaries</div>
+                        <div class="option" data-answer="bard">Write onboarding docs & welcome new contributors</div>
+                        <div class="option" data-answer="debugger">Optimize critical path for speed</div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question" data-question="10">
+                    <h3>Preferred measuring stick for success:</h3>
+                    <div class="options">
+                        <div class="option" data-answer="architect">Shipped features & uptime</div>
+                        <div class="option" data-answer="alchemist">Number of "aha!" discoveries</div>
+                        <div class="option" data-answer="bard">Positive interactions and community growth</div>
+                        <div class="option" data-answer="debugger">Performance charts and bug counters beaten</div>
+                    </div>
+                </div>
+
+                <!-- Question 11 - Likert Scale -->
+                <div class="question" data-question="11">
+                    <h3>Before committing code I usually:</h3>
+                    <div class="likert-scale">
+                        <div class="likert-option">
+                            <input type="radio" name="q11" value="1" data-type="planning">
+                            <span class="likert-label">Double-check against design</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q11" value="2" data-type="planning">
+                            <span class="likert-label">Quick review</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q11" value="3" data-type="planning">
+                            <span class="likert-label">Basic check</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q11" value="4" data-type="planning">
+                            <span class="likert-label">Quick test</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q11" value="5" data-type="planning">
+                            <span class="likert-label">Run it to see what happens</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 12 - Likert Scale -->
+                <div class="question" data-question="12">
+                    <h3>My ideal sprint board looks like:</h3>
+                    <div class="likert-scale">
+                        <div class="likert-option">
+                            <input type="radio" name="q12" value="1" data-type="planning">
+                            <span class="likert-label">Well-defined epics → stories → tasks</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q12" value="2" data-type="planning">
+                            <span class="likert-label">Mostly structured</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q12" value="3" data-type="planning">
+                            <span class="likert-label">Mixed approach</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q12" value="4" data-type="planning">
+                            <span class="likert-label">Flexible backlog</span>
+                        </div>
+                        <div class="likert-option">
+                            <input type="radio" name="q12" value="5" data-type="planning">
+                            <span class="likert-label">A backlog of experiments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn" id="prev-btn" onclick="previousQuestion()" disabled>Previous</button>
+                    <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Next</button>
+                    <button class="btn" id="submit-btn" onclick="calculateResults()" style="display: none;">Get Results</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="results-page" class="results-page">
+            <div class="card">
+                <div class="archetype-card" id="dominant-archetype">
+                    <div class="archetype-image" id="archetype-image">Image Placeholder</div>
+                    <div class="archetype-name" id="archetype-name"></div>
+                    <div class="archetype-subtitle" id="archetype-subtitle"></div>
+                    <div class="archetype-description" id="archetype-description"></div>
+                </div>
+
+                <div class="planning-style" id="planning-result">
+                    <h3>Planning Style</h3>
+                    <p id="planning-description"></p>
+                    <input type="range" class="planning-slider" id="planning-slider" min="0" max="100" disabled>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span>Top-Down Planner</span>
+                        <span>Bottom-Up Experimenter</span>
+                    </div>
+                </div>
+
+                <div class="score-breakdown">
+                    <h3>Your Archetype Breakdown</h3>
+                    <div class="score-item">
+                        <span>Grand Architect</span>
+                        <div class="score-bar">
+                            <div class="score-fill" id="architect-bar"></div>
+                        </div>
+                        <span id="architect-score"></span>
+                    </div>
+                    <div class="score-item">
+                        <span>Discovery Alchemist</span>
+                        <div class="score-bar">
+                            <div class="score-fill" id="alchemist-bar"></div>
+                        </div>
+                        <span id="alchemist-score"></span>
+                    </div>
+                    <div class="score-item">
+                        <span>Synergy Bard</span>
+                        <div class="score-bar">
+                            <div class="score-fill" id="bard-bar"></div>
+                        </div>
+                        <span id="bard-score"></span>
+                    </div>
+                    <div class="score-item">
+                        <span>Duelist Debugger</span>
+                        <div class="score-bar">
+                            <div class="score-fill" id="debugger-bar"></div>
+                        </div>
+                        <span id="debugger-score"></span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn reset-btn" onclick="resetQuiz()">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 12;
+        const answers = {};
+        
+        const archetypes = {
+            architect: {
+                name: "The Grand Architect",
+                subtitle: "Achiever + Spike: \"I build to win through optimal design\"",
+                description: "You approach coding like a master strategist, starting with high-level diagrams and crystal-clear acceptance criteria. Success is measured in milestones hit and performance numbers beaten. You systematically narrow search space, write proofs-of-concept only after the blueprint is settled, and obsessively track metrics. You're the natural tech lead, release manager, and guardian of 'the plan'."
+            },
+            alchemist: {
+                name: "The Discovery Alchemist", 
+                subtitle: "Explorer + Johnny: \"I express myself through inventive exploration\"",
+                description: "You spin up REPLs, sandboxes, and throw-away branches to see what emerges. You love odd APIs, esoteric languages, and novel patterns. Your problem-solving follows hypothesis → micro-experiment → observe → iterate. Documentation is written after the breakthrough. You're the R&D spike owner and proof-of-concept wizard."
+            },
+            bard: {
+                name: "The Synergy Bard",
+                subtitle: "Socializer + Timmy: \"I code for the human experience\"", 
+                description: "You write code to enable teams, customers, and communities. You enjoy pair-programming, mentoring, and crafting delightful developer experiences. You start with conversations, user stories, and shared whiteboards, prototyping together rather than alone. You're the developer advocate, facilitator, and onboarding champion."
+            },
+            debugger: {
+                name: "The Duelist Debugger",
+                subtitle: "Killer + Spike: \"I dominate through technical excellence\"",
+                description: "You thrive on benchmarks, bug-bashing contests, security CTFs, and shaving milliseconds off hot paths. Your approach: profile, isolate, attack — repeat until red turns green. You enjoy refactoring battleships into speedboats. You're the performance tiger-team, incident responder, and security pen-tester."
+            }
+        };
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('current-question').textContent = currentQuestion;
+        }
+
+        function selectOption(element) {
+            const question = element.closest('.question');
+            question.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            const questionNum = question.dataset.question;
+            const answer = element.dataset.answer;
+            answers[questionNum] = answer;
+            
+            updateNavigation();
+        }
+
+        function selectRadio(element) {
+            const questionNum = element.name.replace('q', '');
+            const value = element.value;
+            answers[questionNum] = {type: element.dataset.type, value: parseInt(value)};
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            prevBtn.disabled = currentQuestion === 1;
+            
+            const currentQuestionAnswered = answers[currentQuestion] !== undefined;
+            
+            if (currentQuestion === totalQuestions) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = currentQuestionAnswered ? 'block' : 'none';
+            } else {
+                nextBtn.style.display = 'block';
+                nextBtn.disabled = !currentQuestionAnswered;
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        function showQuestion(questionNum) {
+            document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+            document.querySelector(`[data-question="${questionNum}"]`).classList.add('active');
+            currentQuestion = questionNum;
+            updateProgress();
+            updateNavigation();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                showQuestion(currentQuestion + 1);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 1) {
+                showQuestion(currentQuestion - 1);
+            }
+        }
+
+        function calculateResults() {
+            const scores = {
+                architect: 0,
+                alchemist: 0, 
+                bard: 0,
+                debugger: 0
+            };
+            
+            let planningScore = 0;
+            let planningQuestions = 0;
+            
+            Object.keys(answers).forEach(questionNum => {
+                const answer = answers[questionNum];
+                
+                if (typeof answer === 'string') {
+                    scores[answer]++;
+                } else if (answer.type === 'planning') {
+                    planningScore += answer.value;
+                    planningQuestions++;
+                }
+            });
+            
+            const totalArchetypeQuestions = 8;
+            const percentages = {};
+            Object.keys(scores).forEach(archetype => {
+                percentages[archetype] = Math.round((scores[archetype] / totalArchetypeQuestions) * 100);
+            });
+            
+            const dominantArchetype = Object.keys(percentages).reduce((a, b) => 
+                percentages[a] > percentages[b] ? a : b
+            );
+            
+            const avgPlanningScore = planningScore / planningQuestions;
+            const planningPercentage = ((avgPlanningScore - 1) / 4) * 100;
+            
+            showResults(dominantArchetype, percentages, planningPercentage);
+        }
+
+        function showResults(dominantArchetype, percentages, planningPercentage) {
+            document.getElementById('quiz-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'block';
+            
+            const archetype = archetypes[dominantArchetype];
+            document.getElementById('archetype-name').textContent = archetype.name;
+            document.getElementById('archetype-subtitle').textContent = archetype.subtitle;
+            document.getElementById('archetype-description').textContent = archetype.description;
+            
+            Object.keys(percentages).forEach(type => {
+                document.getElementById(`${type}-score`).textContent = percentages[type] + '%';
+                document.getElementById(`${type}-bar`).style.width = percentages[type] + '%';
+            });
+            
+            const planningSlider = document.getElementById('planning-slider');
+            planningSlider.value = planningPercentage;
+            
+            const planningDesc = planningPercentage < 30 ? 
+                "You're a Top-Down Planner who prefers structure and design-first approaches." :
+                planningPercentage > 70 ?
+                "You're a Bottom-Up Experimenter who thrives on discovery and learning through doing." :
+                "You balance both planning and experimentation based on the situation.";
+                
+            document.getElementById('planning-description').textContent = planningDesc;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 1;
+            Object.keys(answers).forEach(key => delete answers[key]);
+            
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            
+            document.getElementById('quiz-page').style.display = 'block';
+            document.getElementById('results-page').style.display = 'none';
+            
+            showQuestion(1);
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('option')) {
+                selectOption(e.target);
+            }
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                selectRadio(e.target);
+            }
+        });
+
+        updateProgress();
+        updateNavigation();
+    </script>
+</body>
+</html>
