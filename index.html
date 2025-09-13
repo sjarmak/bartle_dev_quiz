@@ -15,7 +15,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #e2e8f0;
-            background: #0f0f0f;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
         }
 
@@ -81,13 +81,13 @@
         }
 
         .option:hover {
-            border-color: #3b82f6;
-            background: #1e3a8a;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
         }
 
         .option.selected {
-            border-color: #3b82f6;
-            background: #1e40af;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
@@ -126,19 +126,20 @@
         }
 
         .btn {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             border-radius: 6px;
             padding: 12px 24px;
             font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
             font-weight: 500;
         }
 
         .btn:hover {
-            background: #2563eb;
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            transform: translateY(-1px);
         }
 
         .btn:disabled {
@@ -157,7 +158,7 @@
 
         .progress-fill {
             height: 100%;
-            background: #3b82f6;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             border-radius: 3px;
             transition: width 0.3s ease;
             width: 0%;
@@ -174,13 +175,13 @@
         }
 
         .archetype-card {
-            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             color: white;
             padding: 30px;
             border-radius: 8px;
             margin-bottom: 30px;
             text-align: center;
-            border: 1px solid #3b82f6;
+            border: 1px solid #667eea;
         }
 
         .archetype-image {
@@ -188,7 +189,7 @@
             height: 120px;
             margin: 0 auto 20px;
             background: #2a2a2a;
-            border: 2px solid #3b82f6;
+            border: 2px solid #f093fb;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -250,7 +251,7 @@
 
         .score-fill {
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             border-radius: 10px;
             transition: width 0.3s ease;
         }
@@ -270,11 +271,12 @@
         }
 
         .reset-btn {
-            background: #e53e3e;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
         .reset-btn:hover {
-            background: #c53030;
+            background: linear-gradient(135deg, #ec4899 0%, #ef4444 100%);
+            transform: translateY(-1px);
         }
     </style>
 </head>
