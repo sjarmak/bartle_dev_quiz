@@ -197,6 +197,14 @@
             color: #9ca3af;
             text-align: center;
             padding: 10px;
+            overflow: hidden;
+        }
+
+        .archetype-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
         }
 
         .archetype-name {
@@ -492,7 +500,10 @@
         <div id="results-page" class="results-page">
             <div class="card">
                 <div class="archetype-card" id="dominant-archetype">
-                    <div class="archetype-image" id="archetype-image">Image Placeholder</div>
+                    <div class="archetype-image" id="archetype-image">
+                        <img id="archetype-img" src="" alt="Archetype Image" style="display: none;">
+                        <span id="image-placeholder">Image Placeholder</span>
+                    </div>
                     <div class="archetype-name" id="archetype-name"></div>
                     <div class="archetype-subtitle" id="archetype-subtitle"></div>
                     <div class="archetype-description" id="archetype-description"></div>
@@ -572,6 +583,11 @@
                 name: "The Duelist Debugger",
                 subtitle: "Killer + Spike: \"I dominate through technical excellence\"",
                 description: "You thrive on benchmarks, bug-bashing contests, security CTFs, and shaving milliseconds off hot paths. Your approach: profile, isolate, attack — repeat until red turns green. You enjoy refactoring battleships into speedboats. You're the performance tiger-team, incident responder, and security pen-tester."
+            },
+            tinkerer: {
+                name: "The Playground Tinkerer",
+                subtitle: "Explorer + Timmy: \"I learn through joy and play\"",
+                description: "You're a balanced blend of archetypes who loves hack-days, game-jams, and 'what if..?' side projects. Quality is less important than the thrill of seeing something run. You build toy versions, swap components just to watch the result, and keep a graveyard of half-finished experiments. You're the innovation spark-plug and internal tooling hacker."
             }
         };
 
@@ -667,9 +683,17 @@
                 percentages[archetype] = Math.round((scores[archetype] / totalArchetypeQuestions) * 100);
             });
             
-            const dominantArchetype = Object.keys(percentages).reduce((a, b) => 
-                percentages[a] > percentages[b] ? a : b
-            );
+            // Check for mixed results (close scores = Playground Tinkerer)
+            const sortedScores = Object.keys(percentages).sort((a, b) => percentages[b] - percentages[a]);
+            const topScore = percentages[sortedScores[0]];
+            const secondScore = percentages[sortedScores[1]];
+            
+            let dominantArchetype;
+            if (topScore - secondScore <= 12.5) { // Close scores indicate mixed type
+                dominantArchetype = 'tinkerer';
+            } else {
+                dominantArchetype = sortedScores[0];
+            }
             
             const avgPlanningScore = planningScore / planningQuestions;
             const planningPercentage = ((avgPlanningScore - 1) / 4) * 100;
@@ -685,6 +709,22 @@
             document.getElementById('archetype-name').textContent = archetype.name;
             document.getElementById('archetype-subtitle').textContent = archetype.subtitle;
             document.getElementById('archetype-description').textContent = archetype.description;
+            
+            // Set archetype image
+            const imgElement = document.getElementById('archetype-img');
+            const placeholder = document.getElementById('image-placeholder');
+            const imagePath = `images/${dominantArchetype}.png`;
+            
+            imgElement.src = imagePath;
+            imgElement.onload = function() {
+                imgElement.style.display = 'block';
+                placeholder.style.display = 'none';
+            };
+            imgElement.onerror = function() {
+                imgElement.style.display = 'none';
+                placeholder.style.display = 'block';
+                placeholder.textContent = 'Image Not Found';
+            };
             
             Object.keys(percentages).forEach(type => {
                 document.getElementById(`${type}-score`).textContent = percentages[type] + '%';
