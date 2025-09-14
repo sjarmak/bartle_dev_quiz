@@ -91,32 +91,7 @@
             color: white;
         }
 
-        .likert-scale {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 20px 0;
-            gap: 10px;
-        }
 
-        .likert-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            flex: 1;
-        }
-
-        .likert-option input[type="radio"] {
-            margin-bottom: 5px;
-            transform: scale(1.2);
-        }
-
-        .likert-label {
-            font-size: 0.8rem;
-            text-align: center;
-            color: #9ca3af;
-        }
 
         .navigation {
             display: flex;
@@ -312,32 +287,7 @@
                 font-size: 0.9rem;
             }
 
-            .likert-scale {
-                flex-direction: column;
-                gap: 15px;
-                margin: 15px 0;
-            }
 
-            .likert-option {
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 10px;
-                padding: 8px;
-                background: #2a2a2a;
-                border-radius: 4px;
-            }
-
-            .likert-option input[type="radio"] {
-                margin: 0;
-                transform: scale(1);
-            }
-
-            .likert-label {
-                font-size: 0.85rem;
-                text-align: left;
-                flex: 1;
-            }
 
             .archetype-image {
                 width: 150px;
@@ -493,30 +443,15 @@
                     </div>
                 </div>
 
-                <!-- Question 5 - Likert Scale -->
+                <!-- Question 5 - Planning Style -->
                 <div class="question" data-question="5">
                     <h3>When tackling large tasks I prefer to:</h3>
-                    <div class="likert-scale">
-                        <div class="likert-option">
-                            <input type="radio" name="q5" value="1" data-type="planning">
-                            <span class="likert-label">Draft extensive design doc first</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q5" value="2" data-type="planning">
-                            <span class="likert-label">Some planning</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q5" value="3" data-type="planning">
-                            <span class="likert-label">Balanced</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q5" value="4" data-type="planning">
-                            <span class="likert-label">Some exploration</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q5" value="5" data-type="planning">
-                            <span class="likert-label">Jump straight into code</span>
-                        </div>
+                    <div class="options">
+                        <div class="option" data-answer="planning" data-value="1">Draft extensive design doc first</div>
+                        <div class="option" data-answer="planning" data-value="2">Some planning</div>
+                        <div class="option" data-answer="planning" data-value="3">Balanced</div>
+                        <div class="option" data-answer="planning" data-value="4">Some exploration</div>
+                        <div class="option" data-answer="planning" data-value="5">Jump straight into code</div>
                     </div>
                 </div>
 
@@ -542,30 +477,15 @@
                     </div>
                 </div>
 
-                <!-- Question 8 - Likert Scale -->
+                <!-- Question 8 - Planning Style -->
                 <div class="question" data-question="8">
                     <h3>I'm comfortable changing requirements mid-sprint:</h3>
-                    <div class="likert-scale">
-                        <div class="likert-option">
-                            <input type="radio" name="q8" value="1" data-type="planning">
-                            <span class="likert-label">No, stick to the spec</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q8" value="2" data-type="planning">
-                            <span class="likert-label">Reluctantly</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q8" value="3" data-type="planning">
-                            <span class="likert-label">Sometimes</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q8" value="4" data-type="planning">
-                            <span class="likert-label">Usually fine</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q8" value="5" data-type="planning">
-                            <span class="likert-label">Absolutely, embrace the chaos</span>
-                        </div>
+                    <div class="options">
+                        <div class="option" data-answer="planning" data-value="1">No, stick to the spec</div>
+                        <div class="option" data-answer="planning" data-value="2">Reluctantly</div>
+                        <div class="option" data-answer="planning" data-value="3">Sometimes</div>
+                        <div class="option" data-answer="planning" data-value="4">Usually fine</div>
+                        <div class="option" data-answer="planning" data-value="5">Absolutely, embrace the chaos</div>
                     </div>
                 </div>
 
@@ -591,57 +511,27 @@
                     </div>
                 </div>
 
-                <!-- Question 11 - Likert Scale -->
+                <!-- Question 11 - Planning Style -->
                 <div class="question" data-question="11">
                     <h3>Before committing code I usually:</h3>
-                    <div class="likert-scale">
-                        <div class="likert-option">
-                            <input type="radio" name="q11" value="1" data-type="planning">
-                            <span class="likert-label">Double-check against design</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q11" value="2" data-type="planning">
-                            <span class="likert-label">Quick review</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q11" value="3" data-type="planning">
-                            <span class="likert-label">Basic check</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q11" value="4" data-type="planning">
-                            <span class="likert-label">Quick test</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q11" value="5" data-type="planning">
-                            <span class="likert-label">Run it to see what happens</span>
-                        </div>
+                    <div class="options">
+                        <div class="option" data-answer="planning" data-value="1">Double-check against design</div>
+                        <div class="option" data-answer="planning" data-value="2">Quick review</div>
+                        <div class="option" data-answer="planning" data-value="3">Basic check</div>
+                        <div class="option" data-answer="planning" data-value="4">Quick test</div>
+                        <div class="option" data-answer="planning" data-value="5">Run it to see what happens</div>
                     </div>
                 </div>
 
-                <!-- Question 12 - Likert Scale -->
+                <!-- Question 12 - Planning Style -->
                 <div class="question" data-question="12">
                     <h3>My ideal sprint board looks like:</h3>
-                    <div class="likert-scale">
-                        <div class="likert-option">
-                            <input type="radio" name="q12" value="1" data-type="planning">
-                            <span class="likert-label">Well-defined epics → stories → tasks</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q12" value="2" data-type="planning">
-                            <span class="likert-label">Mostly structured</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q12" value="3" data-type="planning">
-                            <span class="likert-label">Mixed approach</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q12" value="4" data-type="planning">
-                            <span class="likert-label">Flexible backlog</span>
-                        </div>
-                        <div class="likert-option">
-                            <input type="radio" name="q12" value="5" data-type="planning">
-                            <span class="likert-label">A backlog of experiments</span>
-                        </div>
+                    <div class="options">
+                        <div class="option" data-answer="planning" data-value="1">Well-defined epics → stories → tasks</div>
+                        <div class="option" data-answer="planning" data-value="2">Mostly structured</div>
+                        <div class="option" data-answer="planning" data-value="3">Mixed approach</div>
+                        <div class="option" data-answer="planning" data-value="4">Flexible backlog</div>
+                        <div class="option" data-answer="planning" data-value="5">A backlog of experiments</div>
                     </div>
                 </div>
 
@@ -760,17 +650,18 @@
             
             const questionNum = question.dataset.question;
             const answer = element.dataset.answer;
-            answers[questionNum] = answer;
+            const value = element.dataset.value;
+            
+            if (answer === 'planning' && value) {
+                answers[questionNum] = {type: 'planning', value: parseInt(value)};
+            } else {
+                answers[questionNum] = answer;
+            }
             
             updateNavigation();
         }
 
-        function selectRadio(element) {
-            const questionNum = element.name.replace('q', '');
-            const value = element.value;
-            answers[questionNum] = {type: element.dataset.type, value: parseInt(value)};
-            updateNavigation();
-        }
+
 
         function updateNavigation() {
             const prevBtn = document.getElementById('prev-btn');
@@ -904,7 +795,6 @@
             Object.keys(answers).forEach(key => delete answers[key]);
             
             document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
             
             document.getElementById('quiz-page').style.display = 'block';
             document.getElementById('results-page').style.display = 'none';
@@ -918,16 +808,9 @@
             }
         });
 
-        document.addEventListener('change', function(e) {
-            if (e.target.type === 'radio') {
-                selectRadio(e.target);
-            }
-        });
 
-        // Ensure no radio buttons are checked by default
-        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            radio.checked = false;
-        });
+
+
         
         updateProgress();
         updateNavigation();
